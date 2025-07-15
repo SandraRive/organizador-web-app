@@ -1,0 +1,305 @@
+/* Layout general */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  color: #333;
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #026aa7;
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+
+.main-header .logo a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.top-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.top-nav li {
+  margin-left: 1rem;
+}
+
+.top-nav a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.container {
+  display: flex;
+  height: calc(100vh - 3rem); /* header + footer */
+}
+
+.sidebar {
+  width: 200px;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li + li {
+  margin-top: 0.5rem;
+}
+
+.sidebar a {
+  color: #026aa7;
+  text-decoration: none;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: #f9f9f9;
+}
+
+.main-footer {
+  height: 2rem;
+  text-align: center;
+  background: #026aa7;
+  color: #fff;
+  line-height: 2rem;
+}
+
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.widget {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.widget h2 {
+  margin-top: 0;
+}
+
+.tasks-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.tasks-table th,
+.tasks-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+.tasks-table th {
+  background: #f0f0f0;
+}
+.tasks-table td a {
+  color: #026aa7;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.subject-list {
+  list-style: none;
+  padding: 0;
+}
+.subject-list li + li {
+  margin-top: 0.5rem;
+}
+.subject-list a {
+  color: #026aa7;
+  text-decoration: none;
+}
+
+.notes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.notes-table th,
+.notes-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+.notes-table th {
+  background: #f0f0f0;
+}
+.notes-table td a {
+  color: #026aa7;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.pomodoro-container {
+  text-align: center;
+  padding: 2rem;
+}
+
+.pomodoro-modes {
+  margin-bottom: 1rem;
+}
+
+.mode-btn {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.mode-btn.active {
+  background: #026aa7;
+  color: #fff;
+}
+
+#timer-display {
+  font-size: 4rem;
+  margin: 1rem 0;
+}
+
+.pomodoro-controls button,
+.pomodoro-settings button {
+  margin: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pomodoro-settings {
+  margin-top: 1.5rem;
+}
+
+.pomodoro-settings label {
+  margin: 0 1rem;
+}
+
+
+/* Alerts */
+.alert { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
+.alert-error   { background: #f8d7da; color: #842029; }
+.alert-success { background: #d1e7dd; color: #0f5132; }
+
+/* Secciones de perfil */
+.profile-section { background: #fff; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; }
+
+/* Temas */
+:root[data-theme="light"] {
+  --bg: #f4f4f4;
+  --fg: #333;
+  --card-bg: #fff;
+}
+:root[data-theme="dark"] {
+  --bg: #222;
+  --fg: #ddd;
+  --card-bg: #333;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+.main-header, .main-footer {
+  background: #026aa7; /* puedes personalizar según tema */
+}
+.sidebar {
+  background: var(--card-bg);
+}
+.main-content, .widget, .profile-section {
+  background: var(--card-bg);
+}
+
+.stats-section {
+  background: #fff;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+}
+.stats-section canvas {
+  max-width: 100%;
+  height: 300px;
+}
+
+/* Móvil: hasta 768px */
+@media (max-width: 768px) {
+  /* Contenedor principal pasa a columna */
+  .container {
+    flex-direction: column;
+  }
+
+  /* Sidebar colapsa por defecto */
+  .sidebar {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  .sidebar.open {
+    max-height: 300px; /* o la altura que necesites */
+  }
+
+  /* Main content ocupa todo ancho */
+  .main-content {
+    padding: 1rem;
+    width: 100%;
+  }
+
+  /* Tables scroll horizonal */
+  .tasks-table,
+  .notes-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+
+/* Estilos para el botón de menú móvil */
+.mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #fff;
+  margin-right: 1rem;
+}
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+  }
+  .top-nav ul {
+    display: none;
+  }
+  .top-nav.open ul {
+    display: flex;
+    flex-direction: column;
+    background: #026aa7;
+    position: absolute;
+    top: 3rem;
+    right: 1rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+  }
+  .top-nav.open ul li {
+    margin: 0.5rem 0;
+  }
+}
