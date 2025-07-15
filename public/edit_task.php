@@ -12,8 +12,8 @@ if ($id <= 0) {
     exit;
 }
 
-// 2) Cargar datos existentes
-$stmt = $pdo->prepare("SELECT * FROM tasks WHERE id = ? AND user_id = ?");
+// 2) Cargar datos existentes (solo description)
+$stmt = $pdo->prepare("SELECT id, description FROM tasks WHERE id = ? AND user_id = ?");
 $stmt->execute([$id, $_SESSION['user_id']]);
 $task = $stmt->fetch();
 if (!$task) {
@@ -22,36 +22,20 @@ if (!$task) {
 }
 
 // Inicializar valores para el formulario
-$title       = $task['title'];
 $description = $task['description'];
-$due_date    = $task['due_date'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 3) Recoger y validar POST
-    $title       = trim($_POST['title'] ?? '');
     $description = trim($_POST['description'] ?? '');
-    $due_date    = $_POST['due_date'] ?? '';
-
-    if ($title === '') {
-        $errors[] = 'El título es obligatorio.';
-    }
-    if ($due_date !== '' && !preg_match('/^\d{4}-\d{2}-\d{2}$/', $due_date)) {
-        $errors[] = 'La fecha debe tener formato AAAA-MM-DD.';
+    if ($description === '') {
+        $errors[] = 'La descripción es obligatoria.';
     }
 
     // 4) Si ok, actualizar y redirigir
     if (empty($errors)) {
-        $stmt = $pdo->prepare("
-            UPDATE tasks
-               SET title       = ?,
-                   description = ?,
-                   due_date    = ?
-             WHERE id = ? AND user_id = ?
-        ");
+        $stmt = $pdo->prepare("UPDATE tasks SET description = ? WHERE id = ? AND user_id = ?");
         $stmt->execute([
-            $title,
-            $description ?: null,
-            $due_date ?: null,
+            $description,
             $id,
             $_SESSION['user_id']
         ]);
@@ -64,36 +48,40 @@ $pageTitle = 'Editar tarea';
 include __DIR__ . '/../templates/header.php';
 ?>
 
-  <h1>Editar tarea</h1>
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <h2 class="mb-0"><i class="fa-solid fa-pen-to-square"></i> Editar tarea</h2>
+    </div>
+    <div class="card-body">
+      <?php if ($errors): ?>
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            <?php foreach ($errors as $e): ?>
+              <li><?= htmlspecialchars($e) ?></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+      <?php endif; ?>
 
-  <?php if ($errors): ?>
-    <ul>
-      <?php foreach ($errors as $e): ?>
-        <li><?= htmlspecialchars($e) ?></li>
-      <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
-
-  <form method="post">
-    <div>
-      <label>Título:<br>
-        <input type="text" name="title" 
-               value="<?= htmlspecialchars($title) ?>" required>
-      </label>
+      <form method="post">
+        <div class="mb-3">
+          <label for="description" class="form-label">Descripción</label>
+          <textarea
+            id="description"
+            name="description"
+            class="form-control"
+            rows="4"
+            required
+          ><?= htmlspecialchars($description) ?></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fa-solid fa-save me-1"></i> Guardar cambios
+        </button>
+        <a href="tasks.php" class="btn btn-link">Cancelar</a>
+      </form>
     </div>
-    <div>
-      <label>Descripción:<br>
-        <textarea name="description"><?= htmlspecialchars($description) ?></textarea>
-      </label>
-    </div>
-    <div>
-      <label>Fecha de vencimiento:<br>
-        <input type="date" name="due_date" 
-               value="<?= htmlspecialchars($due_date) ?>">
-      </label>
-    </div>
-    <button type="submit">Guardar cambios</button>
-    <a href="tasks.php" style="margin-left:1rem;">Cancelar</a>
-  </form>
+  </div>
+</div>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

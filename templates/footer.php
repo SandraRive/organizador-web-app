@@ -2,19 +2,19 @@
 // templates/footer.php
 ?>
     </main>  <!-- .main-content -->
-  </div>    <!-- .container -->
 
-  <footer class="main-footer">
-    <p>&copy; <?= date('Y') ?> Tu Organizador</p>
-  </footer>
-  <script src="assets/js/app.js"></script>
-  <script>
-  document.getElementById('mobileToggle').addEventListener('click', () => {
-    // Toggle sidebar
-    document.querySelector('.sidebar').classList.toggle('open');
-    // Toggle top-nav
-    document.querySelector('.top-nav').classList.toggle('open');
-  });
-</script>
-</body>
+    <footer class="main-footer text-center py-3 bg-light mt-auto">
+      <p class="mb-0">&copy; <?= date('Y') ?> Tu Organizador</p>
+    </footer>
+
+   <!-- Bootstrap 5 JS Bundle (debe ir primero) -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-..."
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Tus scripts personalizados -->
+    <script src="assets/js/app.js"></script>
+  </body>
 </html>

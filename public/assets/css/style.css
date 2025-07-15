@@ -1,305 +1,146 @@
-/* Layout general */
+/* public/assets/css/style.css */
+
+/* Reset básico */
+body, h1, h2, p, ul, li, nav, section, main, footer {
+  margin: 0;
+  padding: 0;
+}
+
+/* Google Fonts y tipografías */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Poppins:wght@400;600;700&display=swap');
 body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  color: #333;
+  font-family: 'Open Sans', Arial, sans-serif;
+  background: var(--bg, #f4f4f4);
+  color: var(--fg, #333);
 }
 
-.main-header {
+h1, h2, h3, h4, h5, h6,
+.card-header h2,
+.card-header h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+}
+
+/* Hero más atractivo */
+.hero-section {
+  position: relative;
+  height: 80vh;
+  min-height: 500px;
+  background: url("../img/hero-bg.png") center/cover fixed no-repeat;
+  overflow: hidden;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #026aa7;
-  color: #fff;
-  padding: 0.5rem 1rem;
+  justify-content: center;
 }
-
-.main-header .logo a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.2rem;
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1;
 }
-
-.top-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-.top-nav li {
-  margin-left: 1rem;
-}
-
-.top-nav a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.container {
-  display: flex;
-  height: calc(100vh - 3rem); /* header + footer */
-}
-
-.sidebar {
-  width: 200px;
-  background: #fff;
-  border-right: 1px solid #ddd;
-  padding: 1rem;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
-}
-
-.sidebar li + li {
-  margin-top: 0.5rem;
-}
-
-.sidebar a {
-  color: #026aa7;
-  text-decoration: none;
-}
-
-.main-content {
-  flex: 1;
-  padding: 1.5rem;
-  overflow-y: auto;
-  background: #f9f9f9;
-}
-
-.main-footer {
-  height: 2rem;
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 1rem;
   text-align: center;
-  background: #026aa7;
-  color: #fff;
-  line-height: 2rem;
 }
-
-.dashboard-widgets {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.widget {
-  background: #fff;
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.widget h2 {
-  margin-top: 0;
-}
-
-.tasks-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-.tasks-table th,
-.tasks-table td {
-  border: 1px solid #ddd;
-  padding: 0.5rem;
-  text-align: left;
-}
-.tasks-table th {
-  background: #f0f0f0;
-}
-.tasks-table td a {
-  color: #026aa7;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.subject-list {
-  list-style: none;
-  padding: 0;
-}
-.subject-list li + li {
-  margin-top: 0.5rem;
-}
-.subject-list a {
-  color: #026aa7;
-  text-decoration: none;
-}
-
-.notes-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
-}
-.notes-table th,
-.notes-table td {
-  border: 1px solid #ddd;
-  padding: 0.5rem;
-  text-align: left;
-}
-.notes-table th {
-  background: #f0f0f0;
-}
-.notes-table td a {
-  color: #026aa7;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.pomodoro-container {
-  text-align: center;
-  padding: 2rem;
-}
-
-.pomodoro-modes {
+.hero-title {
+  font-size: 3rem;
+  font-weight: 700;
   margin-bottom: 1rem;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+}
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+}
+.hero-btn {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.2rem; }
+  .hero-subtitle { font-size: 1rem; }
+  .hero-btn { font-size: 1rem; }
 }
 
-.mode-btn {
-  margin: 0 0.5rem;
+/* Cards Section */
+.card {
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.card-body {
+  padding: 1.5rem;
+}
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+.card-title { font-size: 1.25rem; }
+.card-text { color: #555; }
+.hover-scale { transition: transform 0.3s ease; }
+.hover-scale:hover { transform: scale(1.05); }
+
+/* Paleta por sección */
+.tasks-card .card-header { background-color: #007bff; }
+.studies-card .card-header { background-color: #28a745; }
+.pomodoro-card .card-header { background-color: #dc3545; }
+
+/* Secciones generales */
+.container.my-5 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  background: var(--card-bg, #fff);
+}
+.py-5 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+
+/* Tablas y badges */
+.table { max-width: 100%; overflow-x: auto; }
+.table-striped > tbody > tr:nth-of-type(odd) { background-color: rgba(0,0,0,0.03); }
+.badge { padding: 0.5em 0.75em; font-size: 0.9rem; }
+
+/* Botones generales */
+.btn {
+  border-radius: 50px;
+  font-weight: 600;
   padding: 0.5rem 1rem;
-  border: none;
-  background: #eee;
-  cursor: pointer;
-  border-radius: 4px;
 }
 
-.mode-btn.active {
-  background: #026aa7;
-  color: #fff;
-}
+/* Formularios */
+.form-control { border-radius: 0.375rem; }
+.mb-3 { margin-bottom: 1rem; }
 
-#timer-display {
-  font-size: 4rem;
-  margin: 1rem 0;
-}
-
-.pomodoro-controls button,
-.pomodoro-settings button {
-  margin: 0.5rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.pomodoro-settings {
-  margin-top: 1.5rem;
-}
-
-.pomodoro-settings label {
-  margin: 0 1rem;
-}
-
-
-/* Alerts */
+/* Alerts y perfil */
 .alert { padding: 1rem; margin-bottom: 1rem; border-radius: 4px; }
-.alert-error   { background: #f8d7da; color: #842029; }
+.alert-error { background: #f8d7da; color: #842029; }
 .alert-success { background: #d1e7dd; color: #0f5132; }
-
-/* Secciones de perfil */
 .profile-section { background: #fff; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; }
 
-/* Temas */
-:root[data-theme="light"] {
-  --bg: #f4f4f4;
-  --fg: #333;
-  --card-bg: #fff;
-}
-:root[data-theme="dark"] {
-  --bg: #222;
-  --fg: #ddd;
-  --card-bg: #333;
-}
-body {
-  background: var(--bg);
-  color: var(--fg);
-}
-.main-header, .main-footer {
-  background: #026aa7; /* puedes personalizar según tema */
-}
-.sidebar {
-  background: var(--card-bg);
-}
-.main-content, .widget, .profile-section {
-  background: var(--card-bg);
-}
+/* Stats Section */
+.stats-section { background: #fff; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; }
+.stats-section canvas { max-width: 100%; height: 300px; }
 
-.stats-section {
-  background: #fff;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 4px;
-}
-.stats-section canvas {
-  max-width: 100%;
-  height: 300px;
-}
+/* Footer styling */
+.main-footer { background: #026aa7; color: #fff; text-align: center; padding: 0.5rem 0; }
 
-/* Móvil: hasta 768px */
-@media (max-width: 768px) {
-  /* Contenedor principal pasa a columna */
-  .container {
-    flex-direction: column;
-  }
+/* Variables de tema */
+:root[data-theme="light"] { --bg: #f4f4f4; --fg: #333; --card-bg: #fff; }
+:root[data-theme="dark"] { --bg: #222; --fg: #ddd; --card-bg: #333; }
 
-  /* Sidebar colapsa por defecto */
-  .sidebar {
-    width: 100%;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-  .sidebar.open {
-    max-height: 300px; /* o la altura que necesites */
-  }
+/* Import animate.css */
+@import 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css';
 
-  /* Main content ocupa todo ancho */
-  .main-content {
-    padding: 1rem;
-    width: 100%;
-  }
-
-  /* Tables scroll horizonal */
-  .tasks-table,
-  .notes-table {
-    display: block;
-    width: 100%;
-    overflow-x: auto;
-  }
-}
-
-/* Estilos para el botón de menú móvil */
-.mobile-toggle {
-  display: none;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #fff;
-  margin-right: 1rem;
-}
-@media (max-width: 768px) {
-  .mobile-toggle {
-    display: block;
-  }
-  .top-nav ul {
-    display: none;
-  }
-  .top-nav.open ul {
-    display: flex;
-    flex-direction: column;
-    background: #026aa7;
-    position: absolute;
-    top: 3rem;
-    right: 1rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-  }
-  .top-nav.open ul li {
-    margin: 0.5rem 0;
-  }
-}
+/* Ajuste móvil extra */
+@media (max-width: 576px) { .display-1 { font-size: 3rem !important; } }

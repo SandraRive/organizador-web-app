@@ -1,67 +1,66 @@
 <?php
 // public/tasks.php
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/config.php';
+require_once __DIR__.'/../includes/auth.php';
+require_once __DIR__.'/../includes/config.php';
 
-// Recuperamos todas las tareas del usuario
-$stmt = $pdo->prepare("
-    SELECT id, title, due_date, status 
-    FROM tasks 
-    WHERE user_id = ? 
-    ORDER BY 
-      CASE WHEN due_date IS NULL THEN 1 ELSE 0 END, 
-      due_date ASC, created_at DESC
-");
+$pageTitle = 'Tareas';
+
+// Recuperar tareas existentes
+$stmt = $pdo->prepare(
+    "SELECT id, description, status FROM tasks WHERE user_id = ? ORDER BY created_at DESC"
+);
 $stmt->execute([$_SESSION['user_id']]);
 $tasks = $stmt->fetchAll();
+
+include __DIR__.'/../templates/header.php';
 ?>
-<?php $pageTitle = 'Tareas'; include __DIR__ . '/../templates/header.php'; ?>
 
-  <h1>Mis Tareas</h1>
-  <p><a href="create_task.php">+ Nueva tarea</a></p>
+<div class="container my-5">
+  <div class="card shadow-sm tasks-card">
+    <div class="card-header text-white">
+      <h2 class="mb-0"><i class="fa-solid fa-list"></i> Mis tareas</h2>
+    </div>
+    <div class="card-body">
+      <!-- Botón nueva tarea -->
+      <a href="create_task.php" class="btn btn-success mb-4">
+        <i class="fa-solid fa-plus"></i> Nueva tarea
+      </a>
 
-  <?php if (empty($tasks)): ?>
-    <p>No tienes tareas todavía.</p>
-  <?php else: ?>
-    <table class="tasks-table">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Vence</th>
-          <th>Estado</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php foreach ($tasks as $task): ?>
-          <tr>
-            <td><?= htmlspecialchars($task['title']) ?></td>
-            <td>
-              <?= $task['due_date'] 
-                  ? date('d/m/Y', strtotime($task['due_date'])) 
-                  : '-' ?>
-            </td>
-            <td><?= ucfirst($task['status']) ?></td>
-            <td>
-              <a href="edit_task.php?id=<?= $task['id'] ?>">Editar</a> |
-              <a href="delete_task.php?id=<?= $task['id'] ?>"
-                onclick="return confirm('¿Seguro que quieres borrar esta tarea?')">
-                Borrar
-              </a>
-              <?php if ($task['status'] === 'pending'): ?>
-                <a href="toggle_task.php?id=<?= $task['id'] ?>&action=done">
-                  Marcar como hecha
+      <?php if (empty($tasks)): ?>
+        <p class="text-muted">No tienes tareas.</p>
+      <?php else: ?>
+        <table class="table table-striped align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Descripción</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($tasks as $t): ?>
+            <tr>
+              <td><?= htmlspecialchars($t['description']) ?></td>
+              <td>
+                <span class="badge bg-<?= $t['status']==='done' ? 'success':'warning' ?>">
+                  <?= ucfirst($t['status']) ?>
+                </span>
+              </td>
+              <td>
+                <a href="edit_task.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-primary">
+                  <i class="fa-solid fa-pen-to-square"></i>
                 </a>
-              <?php else: ?>
-                <a href="toggle_task.php?id=<?= $task['id'] ?>&action=pending">
-                  Marcar como pendiente
+                <a href="delete_task.php?id=<?= $t['id'] ?>" class="btn btn-sm btn-outline-danger">
+                  <i class="fa-solid fa-trash"></i>
                 </a>
-              <?php endif; ?>
-            </td>
-          </tr>
-        <?php endforeach; ?>
-      </tbody>
-    </table>
-  <?php endif; ?>
+              </td>
+            </tr>
+            <?php endforeach; ?>
+          </tbody>
+        </table>
+      <?php endif; ?>
+    </div>
+  </div>
+</div>
 
-<?php include __DIR__ . '/../templates/footer.php'; ?>
+<?php include __DIR__.'/../templates/footer.php'; ?>
