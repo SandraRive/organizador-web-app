@@ -6,6 +6,38 @@ body, h1, h2, p, ul, li, nav, section, main, footer {
   padding: 0;
 }
 
+/* Fondo y tarjeta de login */
+.login-bg {
+  background: url("../img/login-bg.png") center/cover no-repeat;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  border: none;
+  border-radius: 1rem;
+}
+
+.login-card .card-header {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.login-card .form-control {
+  border-radius: 0.5rem;
+}
+
+.login-card .btn {
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+.login-card .link-primary {
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+
 /* Google Fonts y tipografías */
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Poppins:wght@400;600;700&display=swap');
 body {
@@ -144,3 +176,44 @@ h1, h2, h3, h4, h5, h6,
 
 /* Ajuste móvil extra */
 @media (max-width: 576px) { .display-1 { font-size: 3rem !important; } }
+
+/* Navbar Custom */
+.navbar-custom {
+  height: 70px;
+  padding: 0.5rem 2rem;
+  background: linear-gradient(90deg, #873ce9, #a368e7);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease;
+  z-index: 1030;
+}
+
+.navbar-custom .navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.navbar-custom .nav-link {
+  margin: 0 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar-custom .nav-link:hover {
+  color: #ffeb3b; /* Amarillo suave al pasar */
+}
+
+.navbar-custom .navbar-toggler {
+  border: none;
+}
+
+.navbar-custom .navbar-toggler-icon {
+  filter: invert(1); /* Icono blanco */
+}
+
+/* Cambio de fondo al hacer scroll */
+body.scrolled .navbar-custom {
+  background: linear-gradient(90deg, #005bb5, #228be6);
+}
+
