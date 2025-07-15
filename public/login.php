@@ -4,6 +4,7 @@ require_once __DIR__ . '/../includes/config.php';
 session_start();
 
 $errors = [];
+$email = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $pass  = $_POST['password'] ?? '';
@@ -25,35 +26,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$pageTitle = 'Iniciar sesión';
+include __DIR__ . '/../templates/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Login</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
-  <h2>Iniciar sesión</h2>
-  <?php if (isset($_GET['registered'])): ?>
-    <p>Registro exitoso. Ahora inicia sesión.</p>
-  <?php endif; ?>
-  <?php if ($errors): ?>
-    <ul>
-      <?php foreach ($errors as $e): ?>
-        <li><?= htmlspecialchars($e) ?></li>
-      <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
-  <form method="post">
-    <label>Email:<br>
-      <input type="email" name="email" value="<?= htmlspecialchars($email ?? '') ?>">
-    </label><br>
-    <label>Contraseña:<br>
-      <input type="password" name="password">
-    </label><br>
-    <button type="submit">Entrar</button>
-  </form>
-  <p>¿No tienes cuenta? <a href="register.php">Regístrate</a></p>
-</body>
-</html>
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 login-bg">
+  <div class="card shadow-lg login-card">
+    <div class="card-header text-center bg-primary text-white">
+      <h2 class="mb-0"><i class="fa-solid fa-lock me-2"></i>Iniciar Sesión</h2>
+    </div>
+    <div class="card-body">
+      <?php if ($errors): ?>
+        <div class="alert alert-danger">
+          <ul class="mb-0">
+            <?php foreach ($errors as $e): ?>
+              <li><?= htmlspecialchars($e) ?></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+      <?php elseif (isset($_GET['registered'])): ?>
+        <div class="alert alert-success">
+          Registro exitoso. Ahora inicia sesión.
+        </div>
+      <?php endif; ?>
+
+      <form method="post">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control form-control-lg"
+            value="<?= htmlspecialchars($email) ?>"
+            required
+          >
+        </div>
+        <div class="mb-4">
+          <label for="password" class="form-label">Contraseña</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control form-control-lg"
+            required
+          >
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg w-100">
+          Entrar
+        </button>
+      </form>
+      <p class="text-center mt-3">
+        ¿No tienes cuenta?
+        <a href="register.php" class="link-primary">Regístrate</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<?php include __DIR__ . '/../templates/footer.php'; ?>

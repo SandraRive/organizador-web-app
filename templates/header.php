@@ -1,5 +1,6 @@
 <?php
 // templates/header.php
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -12,16 +13,12 @@
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     rel="stylesheet"
-    integrity="sha384-..."
-    crossorigin="anonymous"
   >
 
   <!-- Font Awesome -->
   <link
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     rel="stylesheet"
-    integrity="sha384-..."
-    crossorigin="anonymous"
   >
 
   <!-- Google Fonts -->
@@ -32,11 +29,15 @@
 
   <!-- Tu CSS personalizado -->
   <link rel="stylesheet" href="assets/css/style.css">
-
 </head>
 <body>
-  <!-- OFFCANVAS SIDEBAR (solo UNO) -->
-  <div class="offcanvas offcanvas-start bg-light" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+  <!-- OFFCANVAS SIDEBAR -->
+  <div
+    class="offcanvas offcanvas-start bg-light"
+    tabindex="-1"
+    id="sidebar"
+    aria-labelledby="sidebarLabel"
+  >
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="sidebarLabel">Navegación</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
@@ -44,25 +45,39 @@
     <div class="offcanvas-body p-0">
       <div class="list-group list-group-flush">
         <a href="dashboard.php" class="list-group-item list-group-item-action">Inicio</a>
-        <a href="tasks.php" class="list-group-item list-group-item-action">Tareas</a>
-        <a href="studies.php" class="list-group-item list-group-item-action">Estudios</a>
-        <a href="pomodoro.php" class="list-group-item list-group-item-action">Pomodoro</a>
+        <a href="tasks.php"     class="list-group-item list-group-item-action">Tareas</a>
+        <a href="studies.php"   class="list-group-item list-group-item-action">Estudios</a>
+        <a href="pomodoro.php"  class="list-group-item list-group-item-action">Pomodoro</a>
       </div>
     </div>
   </div>
 
   <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="dashboard.php">
         <i class="fa-solid fa-list-check"></i> Organizador
       </a>
-      <!-- OFFCANVAS TOGGLE (solo en pantallas pequeñas) -->
-      <button class="btn btn-primary d-lg-none ms-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
+      <!-- OFFCANVAS TOGGLE (solo en móvil) -->
+      <button
+        class="btn btn-primary d-lg-none ms-2"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar"
+        aria-controls="sidebar"
+      >
         <i class="fa-solid fa-bars"></i>
       </button>
-      <!-- COLLAPSE NAVIGATION -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <!-- COLLAPSE NAV -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNav"
+        aria-controls="mainNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -73,10 +88,20 @@
           <li class="nav-item"><a class="nav-link" href="studies.php">Estudios</a></li>
           <li class="nav-item"><a class="nav-link" href="pomodoro.php">Pomodoro</a></li>
         </ul>
+
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <?php if (!empty($_SESSION['username'])): ?>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="fa-solid fa-user"></i> <?= htmlspecialchars($_SESSION['username']) ?>
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="userMenu"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fa-solid fa-user"></i>
+              <?= htmlspecialchars($_SESSION['username']) ?>
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
               <li><a class="dropdown-item" href="profile.php">Perfil</a></li>
@@ -84,9 +109,19 @@
               <li><a class="dropdown-item" href="logout.php">Cerrar sesión</a></li>
             </ul>
           </li>
+          <?php else: ?>
+          <li class="nav-item">
+            <a class="nav-link" href="login.php">
+              <i class="fa-solid fa-right-to-bracket"></i> Entrar
+            </a>
+          </li>
+          <?php endif; ?>
         </ul>
       </div>
     </div>
   </nav>
+
+  <!-- Spacer para fixed-top (altura de navbar-custom) -->
+  <div style="height: 70px;"></div>
 
   <main class="main-content">
